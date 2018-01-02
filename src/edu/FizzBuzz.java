@@ -20,42 +20,30 @@ public class FizzBuzz
     }
     public void applySolution()
     {
-        Thread fizzThread = new Thread(new Runnable()//prints fizz instead of numbers that are divisible by 3
-        {
-            @Override
-            public void run()
+        //prints fizz instead of numbers that are divisible by 3
+        Thread fizzThread = new Thread(() -> {
+            while (number.get() < FizzBuzz.maxCountValue)
             {
-                while (number.get() < FizzBuzz.maxCountValue)
-                {
-                    Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 != 0);
-                    testAndApply(predicate, "Fizz");
-                }
+                Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 != 0);
+                testAndApply(predicate, "Fizz");
             }
         });
 
-        Thread buzzThread = new Thread(new Runnable()//prints fizz instead of numbers that are divisible by 5
-        {
-            @Override
-            public void run()
+        //prints fizz instead of numbers that are divisible by 5
+        Thread buzzThread = new Thread(() -> {
+            while (number.get() < FizzBuzz.maxCountValue)
             {
-                while (number.get() < FizzBuzz.maxCountValue)
-                {
-                    Predicate<Integer> predicate = x -> (x % 3 != 0 && x % 5 == 0);
-                    testAndApply(predicate, "Buzz");
-                }
+                Predicate<Integer> predicate = x -> (x % 3 != 0 && x % 5 == 0);
+                testAndApply(predicate, "Buzz");
             }
         });
 
-        Thread fizzBuzzThread = new Thread(new Runnable()//prints fizz instead of numbers that are divisible by 5 and 3
-        {
-            @Override
-            public void run()
+        //prints fizz instead of numbers that are divisible by 5 and 3
+        Thread fizzBuzzThread = new Thread(() -> {
+            while (number.get() < FizzBuzz.maxCountValue)
             {
-                while (number.get() < FizzBuzz.maxCountValue)
-                {
-                    Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 == 0);
-                    testAndApply(predicate, "FizzBuzz");
-                }
+                Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 == 0);
+                testAndApply(predicate, "FizzBuzz");
             }
         });
 
@@ -105,18 +93,3 @@ public class FizzBuzz
         }
     }
 }
-
-
-//    int currentValue = this.number.get();
-//            if (currentValue % 3 != 0 && currentValue % 5 != 0)
-//                    {//this one is a regular number
-//                    System.out.println(currentValue);
-//                    this.countingBarrier.wait();
-//                    this.number.getAndIncrement();
-//                    this.waitObject.notifyAll();
-//                    }
-//                    else
-//                    {
-//                    this.countingBarrier.wait();
-//                    this.
-//                    }
