@@ -3,6 +3,7 @@ package edu;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        FizzBuzz fz = new FizzBuzz();
+        fz.applySolution();
     }
 }
