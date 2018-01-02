@@ -21,31 +21,13 @@ public class FizzBuzz
     public void applySolution()
     {
         //prints fizz instead of numbers that are divisible by 3
-        Thread fizzThread = new Thread(() -> {
-            while (number.get() < FizzBuzz.maxCountValue)
-            {
-                Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 != 0);
-                testAndApply(predicate, "Fizz");
-            }
-        });
+        Thread fizzThread = new Thread(new MyNestedClass(x -> (x % 3 == 0 && x % 5 != 0), "Fizz"));
 
         //prints fizz instead of numbers that are divisible by 5
-        Thread buzzThread = new Thread(() -> {
-            while (number.get() < FizzBuzz.maxCountValue)
-            {
-                Predicate<Integer> predicate = x -> (x % 3 != 0 && x % 5 == 0);
-                testAndApply(predicate, "Buzz");
-            }
-        });
+        Thread buzzThread = new Thread(new MyNestedClass(x -> (x % 3 != 0 && x % 5 == 0), "Buzz"));
 
         //prints fizz instead of numbers that are divisible by 5 and 3
-        Thread fizzBuzzThread = new Thread(() -> {
-            while (number.get() < FizzBuzz.maxCountValue)
-            {
-                Predicate<Integer> predicate = x -> (x % 3 == 0 && x % 5 == 0);
-                testAndApply(predicate, "FizzBuzz");
-            }
-        });
+        Thread fizzBuzzThread = new Thread(new MyNestedClass(x -> (x % 3 == 0 && x % 5 == 0), "FizzBuzz"));
 
         fizzThread.start();
         fizzBuzzThread.start();
@@ -90,6 +72,27 @@ public class FizzBuzz
         } catch(BrokenBarrierException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private class MyNestedClass implements Runnable
+    {
+        private Predicate<Integer> predicate;
+        private String printString;
+
+        public MyNestedClass(Predicate<Integer> predicate, String printString)
+        {
+            this.predicate = predicate;
+            this.printString = printString;
+        }
+
+        @Override
+        public void run()
+        {
+            while (number.get() < FizzBuzz.maxCountValue)
+            {
+                testAndApply(this.predicate, this.printString);
+            }
         }
     }
 }
